@@ -5,6 +5,145 @@
 namespace it
 {
 
+template<typename T, bool constant>
+	struct v_iterator
+	{
+	public:
+		using value_type = T;
+		using pointer = value_type*;
+		using reference = typename std::conditional<constant, const value_type&, value_type&>::type;
+		using difference_type = size_t;
+		using iterator_category = std::random_access_iterator_tag;
+		
+		v_iterator() : m_ptr(nullptr) {}
+		v_iterator(const v_iterator& other) : m_ptr(other.m_ptr) {}
+		v_iterator(v_iterator&& other) noexcept : m_ptr(other.m_ptr) { other.m_ptr = nullptr; }
+		v_iterator(pointer ptr) : m_ptr(ptr) {}
+
+		v_iterator& operator=(const v_iterator& other);
+		v_iterator& operator=(v_iterator&& other) noexcept;
+
+		friend bool operator==(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr == rhs.m_ptr; }
+
+		friend bool operator!=(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr != rhs.m_ptr; }
+		friend bool operator<(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr < rhs.m_ptr; }
+		friend bool operator>(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr > rhs.m_ptr; }
+		friend bool operator<=(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr <= rhs.m_ptr; }
+		friend bool operator>=(const v_iterator& lhs, const v_iterator& rhs) { return lhs.m_ptr >= rhs.m_ptr; }
+
+		v_iterator operator++(int) { pointer Tmp = m_ptr; ++m_ptr; return Tmp; }
+		v_iterator& operator++() { ++m_ptr; return *this; }
+		v_iterator operator--(int) { pointer Tmp = m_ptr; --m_ptr; return Tmp; }
+		v_iterator& operator--() { --m_ptr; return *this; }
+		v_iterator operator+(int rhs) const { return m_ptr + rhs; }
+		v_iterator operator-(int rhs) const { return m_ptr - rhs; }
+		v_iterator& operator+=(int rhs) { m_ptr += rhs; return *this; }
+		v_iterator& operator-=(int rhs) { m_ptr -= rhs; return *this; }
+		friend v_iterator operator+(difference_type lhs, const v_iterator& rhs) { return rhs.m_ptr + lhs; }
+		difference_type operator-(const v_iterator& rhs) const { return abs(m_ptr - rhs.m_ptr); }
+
+		pointer ptr() const { return m_ptr; }
+
+		reference operator*() const { return *m_ptr; }
+		pointer operator->() const { return m_ptr; }
+
+	private:
+		pointer m_ptr;
+	};
+
+	template<typename T, bool constant>
+	v_iterator<T, constant>& v_iterator<T, constant>::operator=(const v_iterator& other)
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+		}
+		return *this;
+	}
+
+	template<typename T, bool constant>
+	v_iterator<T, constant>& v_iterator<T, constant>::operator=(v_iterator&& other) noexcept
+	{ 
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+			other.m_ptr = nullptr;
+		}
+		return *this; 
+	}
+
+
+	template<typename T, bool constant>
+	struct v_reverse_iterator
+	{
+	public:
+		using value_type = T;
+		using pointer = value_type*;
+		using reference = typename std::conditional<constant, const value_type&, value_type&>::type;
+		using difference_type = size_t;
+		using iterator_category = std::random_access_iterator_tag;
+
+		v_reverse_iterator() : m_ptr(nullptr) {}
+		v_reverse_iterator(const v_reverse_iterator& other) : m_ptr(other.m_ptr) {}
+		v_reverse_iterator(v_reverse_iterator&& other) noexcept : m_ptr(other.m_ptr) { other.m_ptr = nullptr; }
+		v_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+
+		v_reverse_iterator& operator=(const v_reverse_iterator& other);
+		v_reverse_iterator& operator=(v_reverse_iterator&& other) noexcept;
+
+		friend bool operator==(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr == rhs.m_ptr; }
+
+		friend bool operator!=(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr != rhs.m_ptr; }
+		friend bool operator<(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr > rhs.m_ptr; }
+		friend bool operator>(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr < rhs.m_ptr; }
+		friend bool operator<=(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr >= rhs.m_ptr; }
+		friend bool operator>=(const v_reverse_iterator& lhs, const v_reverse_iterator& rhs) { return lhs.m_ptr <= rhs.m_ptr; }
+
+		v_reverse_iterator operator++(int) { pointer Tmp = m_ptr; --m_ptr; return Tmp; }
+		v_reverse_iterator& operator++() { --m_ptr; return *this; }
+		v_reverse_iterator operator--(int) { pointer Tmp = m_ptr; ++m_ptr; return Tmp; }
+		v_reverse_iterator& operator--() { ++m_ptr; return *this; }
+		v_reverse_iterator operator+(int rhs) const { return m_ptr - rhs; }
+		v_reverse_iterator operator-(int rhs) const { return m_ptr + rhs; }
+		v_reverse_iterator& operator+=(int rhs)	{ m_ptr -= rhs; return *this; }
+		v_reverse_iterator& operator-=(int rhs)	{ m_ptr += rhs; return *this; }
+		friend v_reverse_iterator operator+(int lhs, const v_reverse_iterator& rhs) { return rhs.m_ptr - lhs; }
+		difference_type operator-(const v_reverse_iterator& rhs)	const { return abs(m_ptr - rhs.m_ptr); }
+
+		pointer ptr() const { return m_ptr; }
+
+		reference operator*() const { return *m_ptr; }
+		pointer operator->() const { return m_ptr; }
+
+		
+
+	private:
+		pointer m_ptr;
+	};
+
+	template<typename T, bool constant>
+	v_reverse_iterator<T, constant>& v_reverse_iterator<T, constant>::operator=(const v_reverse_iterator& other)
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+		}
+		return *this;
+	}
+
+	template<typename T, bool constant>
+	v_reverse_iterator<T, constant>& v_reverse_iterator<T, constant>::operator=(v_reverse_iterator&& other) noexcept
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+			other.m_ptr = nullptr;
+		}
+		return *this;
+	}
+
+
+
 template<typename T>
 class vector
 {
