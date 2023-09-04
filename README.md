@@ -1,4 +1,5 @@
-In this library i tryed recreating the std vector library implementing the most important functions and making them as similiar as i could do.
+In this library i tried to recreate the std vector library implementing the most important functions and making them as similiar as i could do.
+It works with dinamic memory,it is able to auto allocate memory(if needed) when u push an element in the vector and many more.
 
 Minimum C++11.
 
