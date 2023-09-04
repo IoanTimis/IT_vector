@@ -1,4 +1,4 @@
-This library is my first try at recreating fundamental data structures and functions to help modify them as we like, I have tried to keep everything as similar to std as I could.
+In this library i tryed recreating the std vector library implementing the most important functions and making them as similiar as i could do.
 
 Minimum C++11.
 
