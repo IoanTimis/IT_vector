@@ -23,17 +23,22 @@ int main()
     }
     std::cout << "\n";
 
-    cout<< v1.size()<<"\n";
+    std::cout<< v1.size()<<"\n";
+
     v1.pop_back();
     v1.push_back(10);
+
     for(int i = 0; i < v1.size(); i++)
     {
         std::cout << v1[i] << " ";
     }
     std::cout << "\n";
+
     v2.clear();
-    cout << v2.empty() << "\n";
-    cout << v2.size();
+
+    std::cout << v2.empty() << "\n";
+    std::cout << v2.size();
+
     try
     { 
         v.front() = 10;
