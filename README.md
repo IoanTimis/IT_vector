@@ -23,7 +23,7 @@ int main()
     }
     std::cout << "\n";
 
-    std::cout<< v1.size()<<"\n";
+    std::cout<< v1.size()<< "\n";
 
     v1.pop_back();
     v1.push_back(10);
@@ -37,7 +37,7 @@ int main()
     v2.clear();
 
     std::cout << v2.empty() << "\n";
-    std::cout << v2.size();
+    std::cout << v2.size() <<" "<< v2.capacity() << "\n";
 
     try
     { 
