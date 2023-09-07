@@ -1,9 +1,6 @@
 #include <iostream>
 #include "ioan_vector.h"
 
-
-
-
 int main()
 {
     it::vector<int> v,z;

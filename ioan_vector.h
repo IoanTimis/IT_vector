@@ -6,6 +6,138 @@ namespace it
 {
 
 template<typename T>
+	struct vector_iterator
+	{
+	public:
+		using value_type = T;
+		using pointer = value_type*;
+		using reference = value_type&;
+		
+		vector_iterator() : m_ptr(nullptr) {}
+		vector_iterator(const vector_iterator& other) : m_ptr(other.m_ptr) {}
+		vector_iterator(vector_iterator&& other) noexcept : m_ptr(other.m_ptr) { other.m_ptr = nullptr; }
+		vector_iterator(pointer ptr) : m_ptr(ptr) {}
+
+		vector_iterator& operator=(const vector_iterator& other);
+		vector_iterator& operator=(vector_iterator&& other) noexcept;
+
+		friend bool operator==(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr == Rhs.m_ptr; }
+
+		friend bool operator!=(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr != Rhs.m_ptr; }
+		friend bool operator<(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr < Rhs.m_ptr; }
+		friend bool operator>(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr > Rhs.m_ptr; }
+		friend bool operator<=(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr <= Rhs.m_ptr; }
+		friend bool operator>=(const vector_iterator& Lhs, const vector_iterator& Rhs) { return Lhs.m_ptr >= Rhs.m_ptr; }
+
+		vector_iterator operator++(int) { pointer tmp = m_ptr; ++m_ptr; return tmp; }
+		vector_iterator& operator++() { ++m_ptr; return *this; }
+		vector_iterator operator--(int) { pointer tmp = m_ptr; --m_ptr; return tmp; }
+		vector_iterator& operator--() { --m_ptr; return *this; }
+		vector_iterator operator+(int Rhs) const { return m_ptr + Rhs; }
+		vector_iterator operator-(int Rhs) const { return m_ptr - Rhs; }
+		vector_iterator& operator+=(int Rhs) { m_ptr += Rhs; return *this; }
+		vector_iterator& operator-=(int Rhs) { m_ptr -= Rhs; return *this; }
+		friend vector_iterator operator+(size_t Lhs, const vector_iterator& Rhs) { return Rhs.m_ptr + Lhs; }
+		operator-(const vector_iterator& Rhs) const { return abs(m_ptr - Rhs.m_ptr); }
+
+		pointer ptr() const { return m_ptr; }
+
+		reference operator*() const { return *m_ptr; }
+		pointer operator->() const { return m_ptr; }
+
+	private:
+		pointer m_ptr;
+	};
+
+	template<typename T>
+	vector_iterator<T >& vector_iterator<T >::operator=(const vector_iterator& other)
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	vector_iterator<T >& vector_iterator<T >::operator=(vector_iterator&& other) noexcept
+	{ 
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+			other.m_ptr = nullptr;
+		}
+		return *this; 
+	}
+
+	template<typename T>
+	struct vector_reverse_iterator
+	{
+	public:
+		using value_type = T;
+		using pointer = value_type*;
+		using reference = value_type&;
+
+		vector_reverse_iterator() : m_ptr(nullptr) {}
+		vector_reverse_iterator(const vector_reverse_iterator& other) : m_ptr(other.m_ptr) {}
+		vector_reverse_iterator(vector_reverse_iterator&& other) noexcept : m_ptr(other.m_ptr) { other.m_ptr = nullptr; }
+		vector_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+
+		vector_reverse_iterator& operator=(const vector_reverse_iterator& other);
+		vector_reverse_iterator& operator=(vector_reverse_iterator&& other) noexcept;
+
+		friend bool operator==(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr == Rhs.m_ptr; }
+		friend bool operator!=(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr != Rhs.m_ptr; }
+		friend bool operator<(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr > Rhs.m_ptr; }
+		friend bool operator>(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr < Rhs.m_ptr; }
+		friend bool operator<=(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr >= Rhs.m_ptr; }
+		friend bool operator>=(const vector_reverse_iterator& Lhs, const vector_reverse_iterator& Rhs) { return Lhs.m_ptr <= Rhs.m_ptr; }
+
+		vector_reverse_iterator operator++(int) { pointer tmp = m_ptr; --m_ptr; return tmp; }
+		vector_reverse_iterator& operator++() { --m_ptr; return *this; }
+		vector_reverse_iterator operator--(int) { pointer tmp = m_ptr; ++m_ptr; return tmp; }
+		vector_reverse_iterator& operator--() { ++m_ptr; return *this; }
+		vector_reverse_iterator operator+(int Rhs) const { return m_ptr - Rhs; }
+		vector_reverse_iterator operator-(int Rhs) const { return m_ptr + Rhs; }
+		vector_reverse_iterator& operator+=(int Rhs)	{ m_ptr -= Rhs; return *this; }
+		vector_reverse_iterator& operator-=(int Rhs)	{ m_ptr += Rhs; return *this; }
+		friend vector_reverse_iterator operator+(int Lhs, const vector_reverse_iterator& Rhs) { return Rhs.m_ptr - Lhs; }
+		size_t operator-(const vector_reverse_iterator& Rhs)	const { return abs(m_ptr - Rhs.m_ptr); }
+
+		pointer ptr() const { return m_ptr; }
+		reference operator*() const { return *m_ptr; }
+		pointer operator->() const { return m_ptr; }
+
+		
+
+	private:
+		pointer m_ptr;
+	};
+
+	template<typename T>
+	vector_reverse_iterator<T >& vector_reverse_iterator<T >::operator=(const vector_reverse_iterator& other)
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	vector_reverse_iterator<T >& vector_reverse_iterator<T >::operator=(vector_reverse_iterator&& other) noexcept
+	{
+		if (this != &other)
+		{
+			m_ptr = other.m_ptr;
+			other.m_ptr = nullptr;
+		}
+		return *this;
+	}
+
+
+
+template<typename T>
 class vector
 {
     public:
