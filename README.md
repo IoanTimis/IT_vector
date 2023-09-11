@@ -12,22 +12,43 @@ Minimum C++11.
 
 int main()
 {
-    it::vector<int> v1;
-    it::vector<int> v2({1,2,3,5});
+    it::vector<int> v1,v2,x;
+    it::vector<int> z({1,2,3,5});
+    
+    std::cout <<"Vector: ";
+    for(int i = 0; i < z.size(); i++)
+    {
+        std::cout << z[i] << " ";
+    }
+    std::cout << "\n";
 
-    v1 = v2
+    v2 = std::move(z);
+    std::cout << "Afisare vector dupa move: ";
+    for(int i = 0; i < z.size(); i++)
+    {
+        std::cout << z[i] << " ";
+    }
+    std::cout << "\n";
 
+    std::cout << "Size si cap dupa move: " << z.size()<< " " << z.capacity() << "\n";
+
+    v1 = v2;
+    x = v2;
+
+    it:: vector<int> y(std::move(x));
+    std::cout <<"Copierea vectorului v2 in v1: ";
     for(int i = 0; i < v1.size(); i++)
     {
         std::cout << v1[i] << " ";
     }
     std::cout << "\n";
 
-    std::cout<< v1.size()<< "\n";
+    std::cout << "Size v1: " <<v1.size()<< "\n";
 
     v1.pop_back();
     v1.push_back(10);
 
+    std::cout <<"v1 dupa pop_back() si push_back(10): ";
     for(int i = 0; i < v1.size(); i++)
     {
         std::cout << v1[i] << " ";
@@ -36,12 +57,11 @@ int main()
 
     v2.clear();
 
-    std::cout << v2.empty() << "\n";
-    std::cout << v2.size() <<" "<< v2.capacity() << "\n";
+    std::cout << "Valori v2 dupa clear() (empty(),size(),capacity()): " << v2.empty() << " " << v2.size() <<" "<< v2.capacity() << "\n";
 
     try
     { 
-        v.front() = 10;
+        v1.front() = 10;
     }
 
     catch(std::out_of_range e)
@@ -49,13 +69,16 @@ int main()
         std::cout << e.what()<< "\n";
     }
 
-
     v1.erase(2);
     v1.insert(3,10);
     v1.capacity();
+    v1.shrink_to_fit();
+    v1.reserve(20);
+
 
 
 }
+
 ```
 
 

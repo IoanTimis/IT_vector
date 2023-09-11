@@ -20,7 +20,7 @@ class vector
         ~vector();
 
         bool operator==(const vector& other);
-        bool operator!=(const vector& other) { return !(*this == other); }
+        bool operator!=(const vector& other);
 
         vector& operator=(const vector& other);
         vector& operator=(vector&& other); // move assignment operator
@@ -122,6 +122,12 @@ bool vector<T>::operator==(const vector& other)
 }
 
 template<typename T>
+bool vector<T>::operator!=(const vector& other) 
+{ 
+    return !(*this == other); 
+}
+
+template<typename T>
 vector<T>& vector<T>::operator=(const vector& other)
 {
     delete[] m_data;
@@ -142,7 +148,7 @@ vector<T>& vector<T>::operator=(const vector& other)
 template<typename T>
 vector<T>& vector<T>::operator=(vector&& other)
 {      
-    if(this != other)
+    if(*this != other)
     {
         delete [] m_data;
 

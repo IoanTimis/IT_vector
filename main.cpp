@@ -3,8 +3,12 @@
 
 int main()
 {
-    it::vector<int> v,z;
-    it::vector<int> k({1,2,3,5});
+    it::vector<int> v,z,x,k;
+    it::vector<int> j({1,2,3,5});
+    k = std::move(j);
+
+    x = k;
+    it::vector<int>y(std::move(x));
 
     std::cout << k.capacity()<<" " << k.size() <<"\n";
 
